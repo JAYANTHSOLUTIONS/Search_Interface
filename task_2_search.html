@@ -1,0 +1,893 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tamil Nadu Travel Search - Find Your Perfect Destination</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        /* 🎨 GRADIENT THEMES */
+        .gradient-primary {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+        
+        .gradient-secondary {
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+        }
+        
+        .gradient-accent {
+            background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+        }
+        
+        .gradient-success {
+            background: linear-gradient(135deg, #11998e 0%, #38ef7d 100%);
+        }
+        
+        .gradient-hero {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 50%, #f093fb 100%);
+        }
+        
+        .gradient-card {
+            background: linear-gradient(145deg, #ffffff 0%, #f8fafc 100%);
+        }
+        
+        .gradient-text {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        /* 🎭 ANIMATIONS */
+        .fade-in {
+            animation: fadeIn 0.6s ease-in-out;
+        }
+        
+        .slide-up {
+            animation: slideUp 0.5s ease-out;
+        }
+        
+        .bounce-in {
+            animation: bounceIn 0.8s ease-out;
+        }
+        
+        .pulse-glow {
+            animation: pulseGlow 2s infinite;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        @keyframes slideUp {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        @keyframes bounceIn {
+            0% { opacity: 0; transform: scale(0.3); }
+            50% { opacity: 1; transform: scale(1.05); }
+            70% { transform: scale(0.9); }
+            100% { opacity: 1; transform: scale(1); }
+        }
+        
+        @keyframes pulseGlow {
+            0%, 100% { box-shadow: 0 0 20px rgba(102, 126, 234, 0.4); }
+            50% { box-shadow: 0 0 30px rgba(102, 126, 234, 0.8); }
+        }
+
+        /* 🎯 HOVER EFFECTS */
+        .hover-lift:hover {
+            transform: translateY(-8px);
+            transition: all 0.3s ease;
+        }
+        
+        .hover-scale:hover {
+            transform: scale(1.05);
+            transition: transform 0.3s ease;
+        }
+        
+        .hover-glow:hover {
+            box-shadow: 0 10px 30px rgba(102, 126, 234, 0.3);
+            transition: all 0.3s ease;
+        }
+
+        /* 🎚️ CUSTOM RANGE SLIDER */
+        .range-slider {
+            -webkit-appearance: none;
+            appearance: none;
+            height: 6px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border-radius: 3px;
+            outline: none;
+        }
+        
+        .range-slider::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 20px;
+            height: 20px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border-radius: 50%;
+            cursor: pointer;
+            box-shadow: 0 2px 10px rgba(102, 126, 234, 0.3);
+        }
+        
+        .range-slider::-moz-range-thumb {
+            width: 20px;
+            height: 20px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border-radius: 50%;
+            cursor: pointer;
+            border: none;
+            box-shadow: 0 2px 10px rgba(102, 126, 234, 0.3);
+        }
+
+        /* 📱 RESPONSIVE ANIMATIONS */
+        @media (max-width: 768px) {
+            .mobile-slide {
+                transform: translateX(-100%);
+                transition: transform 0.3s ease;
+            }
+            
+            .mobile-slide.active {
+                transform: translateX(0);
+            }
+        }
+
+        /* 🔍 SEARCH FOCUS EFFECTS */
+        .search-focus:focus {
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.2);
+            border-color: #667eea;
+        }
+
+        /* 🏷️ FILTER TAGS */
+        .filter-tag {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            animation: slideIn 0.3s ease;
+        }
+        
+        @keyframes slideIn {
+            from { opacity: 0; transform: translateX(-20px); }
+            to { opacity: 1; transform: translateX(0); }
+        }
+
+        /* 💫 LOADING ANIMATION */
+        .loading-spinner {
+            border: 3px solid #f3f3f3;
+            border-top: 3px solid #667eea;
+            border-radius: 50%;
+            width: 30px;
+            height: 30px;
+            animation: spin 1s linear infinite;
+        }
+        
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+    </style>
+</head>
+<body class="min-h-screen bg-gray-50">
+    <!-- Header -->
+    <header class="gradient-hero text-white py-6 sticky top-0 z-50 backdrop-blur">
+        <div class="container mx-auto px-4">
+            <div class="flex items-center justify-between">
+                <div class="flex items-center space-x-3 fade-in">
+                    <svg class="h-10 w-10" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
+                    </svg>
+                    <h1 class="text-2xl font-bold">Tamil Nadu Travel Search</h1>
+                </div>
+                <button id="mobile-filter-btn" class="md:hidden bg-white/20 p-2 rounded-lg">
+                    <svg class="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+                    </svg>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <div class="container mx-auto px-4 py-8">
+        <div class="flex flex-col lg:flex-row gap-8">
+            <!-- 🔍 SEARCH & FILTERS SIDEBAR -->
+            <div id="filter-sidebar" class="lg:w-1/4 mobile-slide">
+                <div class="gradient-card rounded-xl p-6 shadow-lg hover-glow sticky top-24">
+                    <!-- Search Bar -->
+                    <div class="mb-6 slide-up">
+                        <label class="block text-gray-700 font-semibold mb-2">🔍 Search Destinations</label>
+                        <div class="relative">
+                            <input 
+                                type="text" 
+                                id="search-input" 
+                                placeholder="Search Tamil Nadu destinations..." 
+                                class="w-full px-4 py-3 border border-gray-300 rounded-lg search-focus transition-all duration-300"
+                            >
+                            <svg class="absolute right-3 top-3 h-5 w-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
+                            </svg>
+                        </div>
+                    </div>
+
+                    <!-- Price Range Filter -->
+                    <div class="mb-6 slide-up" style="animation-delay: 0.1s">
+                        <label class="block text-gray-700 font-semibold mb-2">💰 Price Range</label>
+                        <div class="px-2">
+                            <input 
+                                type="range" 
+                                id="price-range" 
+                                min="2000" 
+                                max="15000" 
+                                value="15000" 
+                                class="range-slider w-full"
+                            >
+                            <div class="flex justify-between text-sm text-gray-600 mt-2">
+                                <span>₹2,000</span>
+                                <span id="price-display" class="font-semibold gradient-text">₹15,000</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Date Filter -->
+                    <div class="mb-6 slide-up" style="animation-delay: 0.2s">
+                        <label class="block text-gray-700 font-semibold mb-2">📅 Travel Date</label>
+                        <input 
+                            type="date" 
+                            id="date-filter" 
+                            class="w-full px-4 py-3 border border-gray-300 rounded-lg search-focus transition-all duration-300"
+                        >
+                    </div>
+
+                    <!-- Theme Filter -->
+                    <div class="mb-6 slide-up" style="animation-delay: 0.3s">
+                        <label class="block text-gray-700 font-semibold mb-2">🎭 Travel Themes</label>
+                        <div class="space-y-2">
+                            <label class="flex items-center space-x-2 cursor-pointer hover:bg-gray-50 p-2 rounded">
+                                <input type="checkbox" class="theme-filter" value="heritage" checked>
+                                <span>🏛️ Heritage & Temples</span>
+                            </label>
+                            <label class="flex items-center space-x-2 cursor-pointer hover:bg-gray-50 p-2 rounded">
+                                <input type="checkbox" class="theme-filter" value="hill-station" checked>
+                                <span>🏔️ Hill Stations</span>
+                            </label>
+                            <label class="flex items-center space-x-2 cursor-pointer hover:bg-gray-50 p-2 rounded">
+                                <input type="checkbox" class="theme-filter" value="coastal" checked>
+                                <span>🏖️ Coastal & Beaches</span>
+                            </label>
+                            <label class="flex items-center space-x-2 cursor-pointer hover:bg-gray-50 p-2 rounded">
+                                <input type="checkbox" class="theme-filter" value="pilgrimage" checked>
+                                <span>🕉️ Pilgrimage</span>
+                            </label>
+                            <label class="flex items-center space-x-2 cursor-pointer hover:bg-gray-50 p-2 rounded">
+                                <input type="checkbox" class="theme-filter" value="cultural" checked>
+                                <span>🎨 Cultural</span>
+                            </label>
+                            <label class="flex items-center space-x-2 cursor-pointer hover:bg-gray-50 p-2 rounded">
+                                <input type="checkbox" class="theme-filter" value="adventure" checked>
+                                <span>⛰️ Adventure</span>
+                            </label>
+                        </div>
+                    </div>
+
+                    <!-- Duration Filter -->
+                    <div class="mb-6 slide-up" style="animation-delay: 0.4s">
+                        <label class="block text-gray-700 font-semibold mb-2">⏱️ Duration</label>
+                        <select id="duration-filter" class="w-full px-4 py-3 border border-gray-300 rounded-lg search-focus transition-all duration-300">
+                            <option value="">Any Duration</option>
+                            <option value="1-2">1-2 Days</option>
+                            <option value="3-4">3-4 Days</option>
+                            <option value="5-7">5-7 Days</option>
+                            <option value="7+">7+ Days</option>
+                        </select>
+                    </div>
+
+                    <!-- Clear Filters Button -->
+                    <button id="clear-filters" class="w-full gradient-secondary text-white py-3 rounded-lg font-semibold hover-scale transition-all duration-300">
+                        🗑️ Clear All Filters
+                    </button>
+                </div>
+            </div>
+
+            <!-- 📋 RESULTS SECTION -->
+            <div class="lg:w-3/4">
+                <!-- Active Filters Display -->
+                <div id="active-filters" class="mb-6 fade-in">
+                    <div class="flex flex-wrap gap-2" id="filter-tags"></div>
+                </div>
+
+                <!-- Results Header -->
+                <div class="flex justify-between items-center mb-6 fade-in">
+                    <div>
+                        <h2 class="text-2xl font-bold gradient-text">Search Results</h2>
+                        <p class="text-gray-600" id="results-count">Loading destinations...</p>
+                    </div>
+                    <div class="flex items-center space-x-4">
+                        <select id="sort-filter" class="px-4 py-2 border border-gray-300 rounded-lg search-focus">
+                            <option value="relevance">Sort by Relevance</option>
+                            <option value="price-low">Price: Low to High</option>
+                            <option value="price-high">Price: High to Low</option>
+                            <option value="rating">Highest Rated</option>
+                            <option value="duration">Duration</option>
+                        </select>
+                        <div id="loading-spinner" class="loading-spinner hidden"></div>
+                    </div>
+                </div>
+
+                <!-- Results Grid -->
+                <div id="results-grid" class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
+                    <!-- Results will be populated by JavaScript -->
+                </div>
+
+                <!-- No Results Message -->
+                <div id="no-results" class="text-center py-12 hidden">
+                    <div class="bounce-in">
+                        <svg class="h-24 w-24 text-gray-400 mx-auto mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.172 16.172a4 4 0 015.656 0M9 12h6m-6-4h6m2 5.291A7.962 7.962 0 0112 15c-2.34 0-4.29-1.009-5.824-2.562M15 6.5a3 3 0 11-6 0 3 3 0 016 0z"></path>
+                        </svg>
+                        <h3 class="text-xl font-semibold text-gray-600 mb-2">No destinations found</h3>
+                        <p class="text-gray-500">Try adjusting your filters to see more results</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // 🗃️ TAMIL NADU DESTINATIONS DATA WITH UNIQUE IMAGES
+        const destinations = [
+            {
+                id: 1,
+                name: "Ooty - Queen of Hill Stations",
+                location: "Ooty, Nilgiris",
+                price: 8999,
+                originalPrice: 11999,
+                duration: 4,
+                rating: 4.7,
+                reviews: 156,
+                theme: "hill-station",
+                image: "https://images.unsplash.com/photo-1544735716-392fe2489ffa?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
+                description: "Experience the cool climate, tea gardens, and scenic toy train ride in the beautiful Nilgiri hills.",
+                highlights: ["Tea Gardens", "Toy Train", "Botanical Garden", "Ooty Lake"]
+            },
+            {
+                id: 2,
+                name: "Kodaikanal - Princess of Hills",
+                location: "Kodaikanal, Dindigul",
+                price: 6999,
+                originalPrice: 8999,
+                duration: 3,
+                rating: 4.8,
+                reviews: 203,
+                theme: "hill-station",
+                image: "https://images.unsplash.com/photo-1605540436563-5bca919ae766?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
+                description: "Romantic hill station with pristine lakes, misty mountains, and pleasant weather year-round.",
+                highlights: ["Kodai Lake", "Coaker's Walk", "Bryant Park", "Pillar Rocks"]
+            },
+            {
+                id: 3,
+                name: "Mahabalipuram Heritage Tour",
+                location: "Mahabalipuram, Chengalpattu",
+                price: 4999,
+                originalPrice: 6499,
+                duration: 2,
+                rating: 4.6,
+                reviews: 124,
+                theme: "heritage",
+                image: "https://images.unsplash.com/photo-1578662996442-48f60103fc96?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
+                description: "UNESCO World Heritage site featuring ancient rock-cut temples and stunning coastal views.",
+                highlights: ["Shore Temple", "Five Rathas", "Arjuna's Penance", "Beach Resort"]
+            },
+            {
+                id: 4,
+                name: "Rameswaram Sacred Journey",
+                location: "Rameswaram, Ramanathapuram",
+                price: 7499,
+                originalPrice: 9999,
+                duration: 3,
+                rating: 4.9,
+                reviews: 189,
+                theme: "pilgrimage",
+                image: "https://images.unsplash.com/photo-1609920658906-8223bd289001?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
+                description: "Sacred pilgrimage destination with magnificent temple architecture and spiritual significance.",
+                highlights: ["Ramanathaswamy Temple", "Pamban Bridge", "Dhanushkodi", "Sacred Baths"]
+            },
+            {
+                id: 5,
+                name: "Kanyakumari - Land's End",
+                location: "Kanyakumari, Southernmost Tip",
+                price: 5499,
+                originalPrice: 7299,
+                duration: 2,
+                rating: 4.5,
+                reviews: 167,
+                theme: "coastal",
+                image: "https://images.unsplash.com/photo-1582510003544-4d00b7f74220?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
+                description: "Witness spectacular sunrise and sunset at India's southernmost tip with confluence of three seas.",
+                highlights: ["Sunrise & Sunset", "Vivekananda Memorial", "Thiruvalluvar Statue", "Beach Walk"]
+            },
+            {
+                id: 6,
+                name: "Madurai Cultural Experience",
+                location: "Madurai, Temple City",
+                price: 6499,
+                originalPrice: 8499,
+                duration: 3,
+                rating: 4.8,
+                reviews: 234,
+                theme: "cultural",
+                image: "https://images.unsplash.com/photo-1571115764595-644a1f56a55c?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
+                description: "Athens of the East with magnificent Meenakshi Temple and rich cultural heritage.",
+                highlights: ["Meenakshi Temple", "Thirumalai Nayak Palace", "Gandhi Museum", "Local Markets"]
+            },
+            {
+                id: 7,
+                name: "Yercaud Hill Station Retreat",
+                location: "Yercaud, Salem",
+                price: 5999,
+                originalPrice: 7499,
+                duration: 2,
+                rating: 4.4,
+                reviews: 98,
+                theme: "hill-station",
+                image: "https://images.unsplash.com/photo-1506905925346-21bda4d32df4?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
+                description: "Serene hill station known as 'Jewel of the South' with coffee plantations and pleasant climate.",
+                highlights: ["Yercaud Lake", "Shevaroy Hills", "Coffee Plantations", "Pagoda Point"]
+            },
+            {
+                id: 8,
+                name: "Thanjavur Heritage Trail",
+                location: "Thanjavur, Rice Bowl of TN",
+                price: 4499,
+                originalPrice: 5999,
+                duration: 2,
+                rating: 4.7,
+                reviews: 145,
+                theme: "heritage",
+                image: "https://images.unsplash.com/photo-1548013146-72479768bada?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
+                description: "Explore the magnificent Brihadeeswarar Temple and rich Chola dynasty heritage.",
+                highlights: ["Big Temple", "Chola Architecture", "Art Gallery", "Royal Palace"]
+            },
+            {
+                id: 9,
+                name: "Pondicherry French Experience",
+                location: "Pondicherry, Union Territory",
+                price: 7999,
+                originalPrice: 9499,
+                duration: 3,
+                rating: 4.6,
+                reviews: 178,
+                theme: "cultural",
+                image: "https://images.unsplash.com/photo-1590736969955-71cc94901144?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
+                description: "French colonial charm with beautiful beaches, cafes, and spiritual atmosphere.",
+                highlights: ["French Quarter", "Auroville", "Beach Promenade", "Cafes & Restaurants"]
+            },
+            {
+                id: 10,
+                name: "Coimbatore & Surroundings",
+                location: "Coimbatore, Western Ghats",
+                price: 8499,
+                originalPrice: 10999,
+                duration: 4,
+                rating: 4.5,
+                reviews: 132,
+                theme: "adventure",
+                image: "https://images.unsplash.com/photo-1544735716-392fe2489ffa?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
+                description: "Gateway to Western Ghats with textile heritage, waterfalls, and adventure activities.",
+                highlights: ["Siruvani Waterfalls", "Textile Mills", "Monkey Falls", "Trekking Trails"]
+            },
+            {
+                id: 11,
+                name: "Tirunelveli Temple Circuit",
+                location: "Tirunelveli, Southern TN",
+                price: 5499,
+                originalPrice: 6999,
+                duration: 2,
+                rating: 4.3,
+                reviews: 87,
+                theme: "pilgrimage",
+                image: "https://images.unsplash.com/photo-1548013146-72479768bada?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
+                description: "Ancient temple town with magnificent Dravidian architecture and spiritual significance.",
+                highlights: ["Nellaiappar Temple", "Courtallam Falls", "Manimuthar Falls", "Temple Architecture"]
+            },
+            {
+                id: 12,
+                name: "Marina Beach & Chennai",
+                location: "Chennai, Capital City",
+                price: 6999,
+                originalPrice: 8499,
+                duration: 3,
+                rating: 4.4,
+                reviews: 201,
+                theme: "coastal",
+                image: "https://images.unsplash.com/photo-1595655406003-618d7b3d9c8d?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
+                description: "Vibrant metropolitan city with longest urban beach, cultural sites, and modern attractions.",
+                highlights: ["Marina Beach", "Fort St. George", "Kapaleeshwarar Temple", "Shopping Malls"]
+            }
+        ];
+
+        // 🎯 GLOBAL VARIABLES
+        let filteredDestinations = [...destinations];
+        let activeFilters = {
+            search: '',
+            price: 15000,
+            date: '',
+            themes: ['heritage', 'hill-station', 'coastal', 'pilgrimage', 'cultural', 'adventure'],
+            duration: '',
+            sort: 'relevance'
+        };
+
+        // 🚀 INITIALIZE APP
+        document.addEventListener('DOMContentLoaded', function() {
+            initializeApp();
+            setupEventListeners();
+            renderDestinations();
+            updateActiveFilters();
+        });
+
+        function initializeApp() {
+            // Set minimum date to today
+            const today = new Date().toISOString().split('T')[0];
+            document.getElementById('date-filter').min = today;
+            
+            // Initialize price display
+            updatePriceDisplay();
+        }
+
+        function setupEventListeners() {
+            // Search input
+            document.getElementById('search-input').addEventListener('input', debounce(handleSearch, 300));
+            
+            // Price range
+            document.getElementById('price-range').addEventListener('input', handlePriceChange);
+            
+            // Date filter
+            document.getElementById('date-filter').addEventListener('change', handleDateChange);
+            
+            // Theme filters
+            document.querySelectorAll('.theme-filter').forEach(checkbox => {
+                checkbox.addEventListener('change', handleThemeChange);
+            });
+            
+            // Duration filter
+            document.getElementById('duration-filter').addEventListener('change', handleDurationChange);
+            
+            // Sort filter
+            document.getElementById('sort-filter').addEventListener('change', handleSortChange);
+            
+            // Clear filters
+            document.getElementById('clear-filters').addEventListener('click', clearAllFilters);
+            
+            // Mobile filter toggle
+            document.getElementById('mobile-filter-btn').addEventListener('click', toggleMobileFilters);
+        }
+
+        // 🔍 FILTER HANDLERS
+        function handleSearch(event) {
+            activeFilters.search = event.target.value.toLowerCase();
+            applyFilters();
+        }
+
+        function handlePriceChange(event) {
+            activeFilters.price = parseInt(event.target.value);
+            updatePriceDisplay();
+            applyFilters();
+        }
+
+        function handleDateChange(event) {
+            activeFilters.date = event.target.value;
+            applyFilters();
+        }
+
+        function handleThemeChange() {
+            const checkedThemes = Array.from(document.querySelectorAll('.theme-filter:checked'))
+                .map(checkbox => checkbox.value);
+            activeFilters.themes = checkedThemes;
+            applyFilters();
+        }
+
+        function handleDurationChange(event) {
+            activeFilters.duration = event.target.value;
+            applyFilters();
+        }
+
+        function handleSortChange(event) {
+            activeFilters.sort = event.target.value;
+            applyFilters();
+        }
+
+        function clearAllFilters() {
+            // Reset form elements
+            document.getElementById('search-input').value = '';
+            document.getElementById('price-range').value = '15000';
+            document.getElementById('date-filter').value = '';
+            document.getElementById('duration-filter').value = '';
+            document.getElementById('sort-filter').value = 'relevance';
+            
+            // Check all theme filters
+            document.querySelectorAll('.theme-filter').forEach(checkbox => {
+                checkbox.checked = true;
+            });
+            
+            // Reset active filters
+            activeFilters = {
+                search: '',
+                price: 15000,
+                date: '',
+                themes: ['heritage', 'hill-station', 'coastal', 'pilgrimage', 'cultural', 'adventure'],
+                duration: '',
+                sort: 'relevance'
+            };
+            
+            updatePriceDisplay();
+            applyFilters();
+        }
+
+        function toggleMobileFilters() {
+            const sidebar = document.getElementById('filter-sidebar');
+            sidebar.classList.toggle('active');
+        }
+
+        // 🎯 FILTER LOGIC
+        function applyFilters() {
+            showLoading();
+            
+            setTimeout(() => {
+                filteredDestinations = destinations.filter(destination => {
+                    // Search filter
+                    if (activeFilters.search && 
+                        !destination.name.toLowerCase().includes(activeFilters.search) &&
+                        !destination.location.toLowerCase().includes(activeFilters.search) &&
+                        !destination.description.toLowerCase().includes(activeFilters.search)) {
+                        return false;
+                    }
+                    
+                    // Price filter
+                    if (destination.price > activeFilters.price) {
+                        return false;
+                    }
+                    
+                    // Theme filter
+                    if (!activeFilters.themes.includes(destination.theme)) {
+                        return false;
+                    }
+                    
+                    // Duration filter
+                    if (activeFilters.duration) {
+                        const duration = destination.duration;
+                        switch (activeFilters.duration) {
+                            case '1-2':
+                                if (duration < 1 || duration > 2) return false;
+                                break;
+                            case '3-4':
+                                if (duration < 3 || duration > 4) return false;
+                                break;
+                            case '5-7':
+                                if (duration < 5 || duration > 7) return false;
+                                break;
+                            case '7+':
+                                if (duration <= 7) return false;
+                                break;
+                        }
+                    }
+                    
+                    return true;
+                });
+                
+                // Apply sorting
+                sortDestinations();
+                
+                // Render results
+                renderDestinations();
+                updateActiveFilters();
+                hideLoading();
+            }, 500);
+        }
+
+        function sortDestinations() {
+            switch (activeFilters.sort) {
+                case 'price-low':
+                    filteredDestinations.sort((a, b) => a.price - b.price);
+                    break;
+                case 'price-high':
+                    filteredDestinations.sort((a, b) => b.price - a.price);
+                    break;
+                case 'rating':
+                    filteredDestinations.sort((a, b) => b.rating - a.rating);
+                    break;
+                case 'duration':
+                    filteredDestinations.sort((a, b) => a.duration - b.duration);
+                    break;
+                default:
+                    // Keep original order for relevance
+                    break;
+            }
+        }
+
+        // 🎨 RENDER FUNCTIONS
+        function renderDestinations() {
+            const grid = document.getElementById('results-grid');
+            const noResults = document.getElementById('no-results');
+            const resultsCount = document.getElementById('results-count');
+            
+            if (filteredDestinations.length === 0) {
+                grid.innerHTML = '';
+                noResults.classList.remove('hidden');
+                resultsCount.textContent = 'No destinations found';
+                return;
+            }
+            
+            noResults.classList.add('hidden');
+            resultsCount.textContent = `${filteredDestinations.length} destination${filteredDestinations.length !== 1 ? 's' : ''} found`;
+            
+            grid.innerHTML = filteredDestinations.map((destination, index) => `
+                <div class="gradient-card rounded-xl overflow-hidden shadow-lg hover-lift hover-glow transition-all duration-300 fade-in" style="animation-delay: ${index * 0.1}s">
+                    <div class="relative">
+                        <img src="${destination.image}" alt="${destination.name}" class="w-full h-48 object-cover">
+                        <div class="absolute top-4 left-4">
+                            <span class="gradient-accent text-white px-3 py-1 rounded-full text-sm font-medium">
+                                ${getThemeIcon(destination.theme)} ${getThemeLabel(destination.theme)}
+                            </span>
+                        </div>
+                        <div class="absolute top-4 right-4">
+                            <div class="bg-white/90 backdrop-blur px-2 py-1 rounded-full text-sm font-semibold">
+                                ⭐ ${destination.rating}
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="p-6">
+                        <div class="flex items-center gap-2 text-sm text-gray-600 mb-2">
+                            <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path>
+                            </svg>
+                            ${destination.location}
+                        </div>
+                        
+                        <h3 class="text-xl font-semibold text-gray-900 mb-2">${destination.name}</h3>
+                        <p class="text-gray-600 text-sm mb-4 line-clamp-2">${destination.description}</p>
+                        
+                        <div class="flex items-center gap-4 mb-4 text-sm text-gray-600">
+                            <div class="flex items-center gap-1">
+                                <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
+                                </svg>
+                                ${destination.duration} days
+                            </div>
+                            <div class="flex items-center gap-1">
+                                <svg class="h-4 w-4 fill-yellow-400 text-yellow-400" viewBox="0 0 20 20">
+                                    <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path>
+                                </svg>
+                                ${destination.rating} (${destination.reviews})
+                            </div>
+                        </div>
+                        
+                        <div class="mb-4">
+                            <div class="flex flex-wrap gap-1">
+                                ${destination.highlights.slice(0, 3).map(highlight => 
+                                    `<span class="bg-gray-100 text-gray-700 px-2 py-1 rounded text-xs">${highlight}</span>`
+                                ).join('')}
+                            </div>
+                        </div>
+                        
+                        <div class="flex items-center justify-between">
+                            <div class="flex items-center gap-2">
+                                <span class="text-2xl font-bold gradient-text">₹${destination.price.toLocaleString()}</span>
+                                <span class="text-sm text-gray-500 line-through">₹${destination.originalPrice.toLocaleString()}</span>
+                            </div>
+                            <button class="gradient-primary text-white px-6 py-2 rounded-lg font-semibold hover-scale transition-all duration-300 pulse-glow">
+                                Book Now
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function updateActiveFilters() {
+            const filterTags = document.getElementById('filter-tags');
+            const tags = [];
+            
+            if (activeFilters.search) {
+                tags.push(`Search: "${activeFilters.search}"`);
+            }
+            
+            if (activeFilters.price < 15000) {
+                tags.push(`Max Price: ₹${activeFilters.price.toLocaleString()}`);
+            }
+            
+            if (activeFilters.date) {
+                tags.push(`Date: ${new Date(activeFilters.date).toLocaleDateString()}`);
+            }
+            
+            if (activeFilters.themes.length < 6) {
+                tags.push(`Themes: ${activeFilters.themes.map(getThemeLabel).join(', ')}`);
+            }
+            
+            if (activeFilters.duration) {
+                tags.push(`Duration: ${activeFilters.duration} days`);
+            }
+            
+            if (activeFilters.sort !== 'relevance') {
+                tags.push(`Sort: ${getSortLabel(activeFilters.sort)}`);
+            }
+            
+            filterTags.innerHTML = tags.map(tag => 
+                `<span class="filter-tag">${tag}</span>`
+            ).join('');
+        }
+
+        // 🛠️ UTILITY FUNCTIONS
+        function updatePriceDisplay() {
+            const priceDisplay = document.getElementById('price-display');
+            const priceRange = document.getElementById('price-range');
+            priceDisplay.textContent = `₹${parseInt(priceRange.value).toLocaleString()}`;
+        }
+
+        function getThemeIcon(theme) {
+            const icons = {
+                'heritage': '🏛️',
+                'hill-station': '🏔️',
+                'coastal': '🏖️',
+                'pilgrimage': '🕉️',
+                'cultural': '🎨',
+                'adventure': '⛰️'
+            };
+            return icons[theme] || '📍';
+        }
+
+        function getThemeLabel(theme) {
+            const labels = {
+                'heritage': 'Heritage',
+                'hill-station': 'Hill Station',
+                'coastal': 'Coastal',
+                'pilgrimage': 'Pilgrimage',
+                'cultural': 'Cultural',
+                'adventure': 'Adventure'
+            };
+            return labels[theme] || theme;
+        }
+
+        function getSortLabel(sort) {
+            const labels = {
+                'price-low': 'Price: Low to High',
+                'price-high': 'Price: High to Low',
+                'rating': 'Highest Rated',
+                'duration': 'Duration'
+            };
+            return labels[sort] || sort;
+        }
+
+        function showLoading() {
+            document.getElementById('loading-spinner').classList.remove('hidden');
+        }
+
+        function hideLoading() {
+            document.getElementById('loading-spinner').classList.add('hidden');
+        }
+
+        function debounce(func, wait) {
+            let timeout;
+            return function executedFunction(...args) {
+                const later = () => {
+                    clearTimeout(timeout);
+                    func(...args);
+                };
+                clearTimeout(timeout);
+                timeout = setTimeout(later, wait);
+            };
+        }
+
+        // 📱 RESPONSIVE HANDLING
+        window.addEventListener('resize', function() {
+            if (window.innerWidth >= 1024) {
+                document.getElementById('filter-sidebar').classList.remove('active');
+            }
+        });
+    </script>
+</body>
+</html>
